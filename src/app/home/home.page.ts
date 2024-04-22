@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { ImgModalPage } from '../img-modal/img-modal.page';
 import * as infoPerro from '../../assets/data/InfoPerro.json';
 import * as infoGato from '../../assets/data/InfoGato.json';
+import { AdMob } from '@capacitor-community/admob';
+import { BannerAdOptions, BannerAdSize, BannerAdPosition, BannerAdPluginEvents } from '@capacitor-community/admob/dist/esm/banner';
 
 @Component({
   selector: 'app-home',
@@ -26,6 +28,7 @@ export class homePage {
       this.infoGatoChunks.push(this.infoGato.slice(i, i + 1));
     }
     this.combineAnimals();
+    this.showBanner();
   }
 
   navigateToTargetPage(segment: string, gatoId: number) {
@@ -62,6 +65,31 @@ export class homePage {
       }
     }
 
+  }
+
+  async showBanner() {
+    try {
+      AdMob.initialize({
+        requestTrackingAuthorization: true,
+        initializeForTesting: false
+      });
+      const options: BannerAdOptions = {
+        adId: 'ca-app-pub-6309294666517022/8712895580',
+        adSize: BannerAdSize.BANNER,
+        position: BannerAdPosition.BOTTOM_CENTER,
+        margin: 0,
+        isTesting: true
+      };
+      await AdMob.showBanner(options).then(() => {
+        console.log('Banner');
+      });
+      AdMob.addListener(BannerAdPluginEvents.FailedToLoad, (erorr) => {
+        console.log(erorr.code)
+        console.log(erorr.message)
+      })
+    } catch (e) {
+      console.log(e)
+    }
   }
 
 }
