@@ -75,7 +75,7 @@ export class homePage {
       });
       const options: BannerAdOptions = {
         adId: 'ca-app-pub-6309294666517022/8712895580',
-        adSize: BannerAdSize.BANNER,
+        adSize: BannerAdSize.ADAPTIVE_BANNER,
         position: BannerAdPosition.BOTTOM_CENTER,
         margin: 0,
         isTesting: true
